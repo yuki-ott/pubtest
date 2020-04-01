@@ -1,6 +1,9 @@
 <html>
     <head>
         <title>色々テスト</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="manifest" href="./manifest.json">
         <script>
             if ('serviceWorker' in navigator) {
@@ -19,5 +22,92 @@
     </head>
     <body>
         <button>hogeeee</button>
+        <video id="player" muted autoplay></video>
+        <canvas id="snapshot" width="100" height="100"></canvas>
+        <div>
+            barcode text: <span id="rawValue"></span>
+        </div>
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <script>
+            const video = document.getElementById('player');
+            const canvas = document.getElementById('snapshot');
+            const ctx = canvas.getContext('2d');
+            let videoTracks;
+            let localStream = null;
+            let captureTimer = null;
+            const fps;
+            let medias = {
+                video:
+                {
+                    width: 100,
+                    height: 100,
+                    facingMode: {exact: "environment"}
+                },
+                audio: false
+            };
+
+            const startBtn = document.getElementById('start');
+            const stopBtn = document.getElementById('stop');
+
+            startBtn.onclick = function() {
+                navigator.mediaDevices.getUserMedia(medias)
+                    .then(function(stream) {
+                        video.srcObject = stream;
+                        localStream = stream;
+
+                        if (window.BarcodeDetector) {
+                            const detector = new BarcodeDetector();
+                            captureTimer = setInterval(function() {
+                                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                                let scale = 1;
+                                detector.detect(video).then(function(barcodes) {
+                                    ctx.lineWidth = 2;
+                                    ctx.strokeStyle = 'red';
+                                    for (let barcode of barcodes) {
+                                        ctx.beginPath();
+                                        ctx.rect(
+                                            Math.floor(barcode.boudingBox.x * scale),
+                                            Math.floor(barcode.boudingBox.y * scale),
+                                            Math.floor(barcode.boudingBox.width * scale),
+                                            Math.floor(barcode.boudingBox.height * scale)
+                                            );
+                                        ctx.stroke();
+                                        document.getElementById('rawValue')
+                                            .innerHTML = convertLink(barcode.rawValue);
+                                    }
+                                }).catch(function(err) {console.error(err)});
+                            }, 1000 / fps);
+                        }
+                        else {
+                            console.error('BarcodeDetection is not enable');
+                        }
+                        startBtn.disabled = true;
+                        stopBtn.disabled = false;
+                    }).catch(function(err) {
+                        // リアカメラがないケース
+                        console.error(err);
+                    });
+            };
+            stopBtn.onclick = function() {
+                clearInterval(captureTimer);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                localStream.getTracks().forEach(function(track) {
+                    track.stop();
+                });
+                localStream = null;
+                video.srcObject = null;
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+            };
+            function convertLink(str) {
+                const r = /((h?)(ttps?:\/\/[a-zA-Z0-9.\-_@:\/~?%&;=+#',()*!]+))/g; //']))/;
+                const regLink = function(all, url, h, href) {
+                    return '<a href="h' + href + '">' + url + '</a>';
+                }
+                return str.replace(r, regLink);
+            };
+            startBtn.click();
+        </script>
     </body>
 </html>
