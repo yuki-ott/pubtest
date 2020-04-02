@@ -64,7 +64,7 @@
                                 clearInterval(loop);
                                 target.srcObject.getTracks()[0].stop();
                                 target.srcObject = null;
-                                info.textContent = code.data;
+                                res(code.data);
                             }
                         }, 100);
                     });
