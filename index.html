@@ -29,12 +29,11 @@
         </div>
         <button id="start">Start</button>
         <button id="stop">Stop</button>
-        <script src="instascan.min.js"></script>
+        <!--<script src="instascan.min.js"></script>-->
         <script src="https://cdn.jsdelivr.net/npm/jsqr@latest/dist/jsQR.min.js"></script>
 
         <script>
             //navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia;
-            /*
             const video = document.getElementById('player');
             const canvas = document.getElementById('canvas');
             var info = document.getElementById('rawValue');
@@ -62,8 +61,8 @@
                 .then(({target}) => {
                     return new Promise((res) => {
                         const loop = setInterval(() => {
-                            canvas.drawImage(target, 0, 0, target.videoWidth, target.videoHeight);
-                            const img = canvas.getImageData(0, 0, target.videoWidth, target.videoHeight);
+                            ctx.drawImage(target, 0, 0, target.videoWidth, target.videoHeight);
+                            const img = ctx.getImageData(0, 0, target.videoWidth, target.videoHeight);
                             const code = jsQR(img.data, img.width, img.height);
                             if (code) {
                                 clearInterval(loop);
@@ -94,8 +93,8 @@
                     }, 300);
                 }
             }
-            */
 
+            /*
             // instascan
             var videoTag = document.getElementById('player');
             var scanner = new Instascan.Scanner({video:videoTag});
@@ -133,6 +132,7 @@
 
                     });
             };
+            */
 
             /*
             const video = document.getElementById('player');
