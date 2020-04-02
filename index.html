@@ -38,7 +38,10 @@
             const canvas = document.getElementById('canvas');
             var info = document.getElementById('rawValue');
             const ctx = canvas.getContext('2d');
-            window.onload = () => {
+
+            const startBtn = document.getElementById('start');
+            const stopBtn = document.getElementById('stop');
+            startBtn.onclick = () => {
                 const constraints = {
                     video: true,
                     audio: false,
@@ -71,6 +74,11 @@
                     });
                 })
                 ;
+            };
+            stopBtn.onclick = () => {
+                video.pause();
+                const track = video.srcObject.getTracks()[0];
+                track.stop();
             };
 
             function checkPicture() {
