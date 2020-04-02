@@ -38,7 +38,7 @@
             var info = document.getElementById('rawValue');
             const ctx = canvas.getContext('2d');
             window.onload = () => {
-                const consraints = {
+                const constraints = {
                     audio: false,
                     video: {
                         width: 300,
@@ -46,10 +46,10 @@
                         facingMode: "environment"
                     }
                 };
-                navigator.mediaDevices.getUserMedia(consraints)
+                navigator.mediaDevices.getUserMedia(constraints)
                 .then((stream) => {
                     video.srcObject = stream;
-                    vodeo.onloadedmetadata = (e) => {
+                    video.onloadedmetadata = (e) => {
                         video.play();
                         checkPicture();
                     };
