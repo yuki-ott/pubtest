@@ -34,7 +34,7 @@
             // instascan
             var videoTag = document.getElementById('player');
             var scanner = new Instascan.Scanner({video:videoTag});
-            scanner.addListner('scan', function(value) {
+            scanner.addListener('scan', function(value) {
                 console.log(value);
             });
             Instascan.Camera.getCameras()
