@@ -89,7 +89,7 @@
                         var longi = pos.coords.longitude;
                         loc.textContent = lati + "/" + longi;
                         var linktag = 'https://www.google.co.jp/search?q=' + lati + ',' + longi;
-                        loc.attr('href', linktag);
+                        loc.href = linktag;
                     });
                 } else {
                     loc.textContent = "Geolocationが使えない";
