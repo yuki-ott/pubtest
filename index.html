@@ -31,6 +31,7 @@
         <button id="stop">Stop</button>
         <script src="instascan.min.js"></script>
         <script>
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia;
             // instascan
             var videoTag = document.getElementById('player');
             var scanner = new Instascan.Scanner({video:videoTag});
