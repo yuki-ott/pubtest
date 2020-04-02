@@ -34,8 +34,10 @@
             // instascan
             var videoTag = document.getElementById('player');
             var scanner = new Instascan.Scanner({video:videoTag});
+            var info = document.getElementById('rawValue');
             scanner.addListener('scan', function(value) {
                 console.log(value);
+                info.textContent = value;
             });
 
             const startBtn = document.getElementById('start');
