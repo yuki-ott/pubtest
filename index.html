@@ -32,7 +32,7 @@
         <script src="instascan.min.js"></script>
         <script src="jsQR.js"></script>
         <script>
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia;
+            //navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia;
             const video = document.getElementById('player');
             const canvas = document.getElementById('snapshot');
             var info = document.getElementById('rawValue');
@@ -46,7 +46,7 @@
                         facingMode: "user"
                     }
                 };
-                navigator.getUserMedia(consraints)
+                navigator.mediaDevices.getUserMedia(consraints)
                 .then((stream) => {
                     video.srcObject = stream;
                     vodeo.onloadedmetadata = (e) => {
