@@ -51,6 +51,7 @@
                     video.srcObject = stream;
                     vodeo.onloadedmetadata = (e) => {
                         video.play();
+                        checkPicture();
                     };
                 });
             };
