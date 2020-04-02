@@ -114,9 +114,11 @@
                             scanner.start(cameras[0]);
                         } else {
                             console.error('camera not found');
+                            info.textContent = "camera not found";
                         }
                     }).catch(function(err) {
                         // エラー処理
+                        info.textContent = err;
                     });
             };
             stopBtn.onclick = function() {
