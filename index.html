@@ -37,16 +37,33 @@
             scanner.addListener('scan', function(value) {
                 console.log(value);
             });
-            Instascan.Camera.getCameras()
-                .then(function(cameras) {
-                    if (cameras.length > 0) {
-                        scanner.start(cameras[0]);
-                    } else {
-                        console.error('camera not found');
-                    }
-                }).catch(function(err) {
-                    // エラー処理
-                });
+
+            const startBtn = document.getElementById('start');
+            const stopBtn = document.getElementById('stop');
+            startBtn.onclick = function() {
+                Instascan.Camera.getCameras()
+                    .then(function(cameras) {
+                        if (cameras.length > 0) {
+                            scanner.start(cameras[0]);
+                        } else {
+                            console.error('camera not found');
+                        }
+                    }).catch(function(err) {
+                        // エラー処理
+                    });
+            };
+            stopBtn.onclick = function() {
+                Instascan.Camera.getCameras()
+                    .then(function(cameras) {
+                        if (cameras.length > 0) {
+                            scanner.stop(cameras[0]);
+                        } else {
+                            console.error('camera not found');
+                        }
+                    }).catch(function(err) {
+
+                    });
+            };
 
             /*
             const video = document.getElementById('player');
