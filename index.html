@@ -7,10 +7,24 @@
         <link rel="apple-touch-icon" href="icon.ico" sizes="192x192">
         <link rel="manifest" href="./manifest.json">
         <script>
+            // サービスワーカー登録
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('./service-worker.js')
                     .then(function() {console.log('Service Worker Registered');
                 });
+            }
+            // 機種ごとのマニフェスト読込
+            function setManifest(path) {
+                const manifest = document.createElement('link');
+                manifest.rel = 'manifest';
+                manifest.href = path;
+                document.head.appendChild(manifest);
+            }
+            var ua = navigator.userAgent.toLocaleLowerCase();
+            if (ua.indexOf('iphone') > 0 || ua.indexOf('ipad')) {
+                setManifest('manifest_ios.json');
+            } else {
+                setManifest('manifest.json');
             }
         </script>
         <style>
