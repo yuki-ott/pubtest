@@ -24,9 +24,8 @@
         <button>hogeeee</button>
         <video id="player" width="300" height="200" autoplay playsinline></video>
         <canvas id="canvas" width="300" height="200" ></canvas>
-        <div>
-            barcode text: <span id="rawValue"></span>
-        </div>
+        <div>barcode text: <span id="rawValue"></span></div>
+        <div>location: <a href="#" id="loc"></a></div>
         <button id="start">Start</button>
         <button id="stop">Stop</button>
         <!--<script src="instascan.min.js"></script>-->
@@ -38,6 +37,7 @@
             const canvas = document.getElementById('canvas');
             var info = document.getElementById('rawValue');
             const ctx = canvas.getContext('2d');
+            const loc = document.getElementById('loc');
 
             const startBtn = document.getElementById('start');
             const stopBtn = document.getElementById('stop');
@@ -69,7 +69,8 @@
                                 target.srcObject.getTracks()[0].stop();
                                 target.srcObject = null;
                                 info.textContent = code.data;
-                                res(code.data);
+                                setLocation();
+//                                res(code.data);
                             }
                         }, 100);
                     });
@@ -81,6 +82,19 @@
                 const track = video.srcObject.getTracks()[0];
                 track.stop();
             };
+            function setLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((pos) => {
+                        var lati = pos.coords.latitude;
+                        var longi = pos.coords.longitude;
+                        loc.textContent = lati + "/" + longi;
+                        var linktag = 'https://www.google.co.jp/search?q=' + lati + ',' + longi;
+                        loc.attr('href', linktag);
+                    });
+                } else {
+                    loc.textContent = "Geolocationが使えない";
+                }
+            }
 
             function checkPicture() {
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
