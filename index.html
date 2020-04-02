@@ -22,7 +22,7 @@
     </head>
     <body>
         <button>hogeeee</button>
-        <video id="player" width="300" height="200" muted></video>
+        <video id="player" width="300" height="200" autoplay></video>
         <canvas id="snapshot" width="100" height="100"></canvas>
         <div>
             barcode text: <span id="rawValue"></span>
@@ -30,7 +30,8 @@
         <button id="start">Start</button>
         <button id="stop">Stop</button>
         <!--<script src="instascan.min.js"></script>-->
-        <script src="jsQR.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jsqr@latest/dist/jsQR.min.js"></script>
+
         <script>
             //navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia;
             const video = document.getElementById('player');
