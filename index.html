@@ -110,14 +110,16 @@
             function setContent(value) {
                 var info = document.getElementById('rawValue');
                 const cacheList = document.getElementById('cacheList');
+                // isOnlineと書いてるけどnavigator.onLineでも判別出来るかも
                 if (isOnline) {
                     info.innerHTML = value;
+                    document.getElementById('sendAll').disabled = true;
                 } else {
                     if (cacheList.innerHTML.length > 0) {
                         cacheList.innerHTML += "<br>";
                     }
                     cacheList.innerHTML += value;
-                    document.getElementById('sendAll').setAttribute('disabled', false);
+                    document.getElementById('sendAll').disabled = false;
                 }
             }
             function setLocation() {
