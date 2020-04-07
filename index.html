@@ -15,7 +15,7 @@
                 document.head.appendChild(manifest);
             }
             var ua = navigator.userAgent.toLocaleLowerCase();
-            if (ua.indexOf('iphone') > 0 || ua.indexOf('ipad')) {
+            if (ua.indexOf('iphone') > 0 || ua.indexOf('ipad') > 0) {
                 setManifest('manifest_ios.json');
             } else {
                 setManifest('manifest.json');
@@ -43,11 +43,9 @@
         <div>location: <a href="#" id="loc"></a></div>
         <button id="start">Start</button>
         <button id="stop">Stop</button>
-        <!--<script src="instascan.min.js"></script>-->
         <script src="https://cdn.jsdelivr.net/npm/jsqr@latest/dist/jsQR.min.js"></script>
 
         <script>
-            //navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia;
             const video = document.getElementById('player');
             const canvas = document.getElementById('canvas');
             var info = document.getElementById('rawValue');
@@ -111,139 +109,7 @@
                 }
             }
 
-            function checkPicture() {
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const code = jsQR(imageData.data, canvas.width, canvas.height);
-                if (code) {
-                    info.textContent = code.data;
-                } else {
-                    setTimeout(() => {
-                        checkPicture();
-                    }, 300);
-                }
-            }
-
-            /*
-            // instascan
-            var videoTag = document.getElementById('player');
-            var scanner = new Instascan.Scanner({video:videoTag});
-            var info = document.getElementById('rawValue');
-            scanner.addListener('scan', function(value) {
-                console.log(value);
-                info.textContent = value;
-            });
-
-            const startBtn = document.getElementById('start');
-            const stopBtn = document.getElementById('stop');
-            startBtn.onclick = function() {
-                Instascan.Camera.getCameras()
-                    .then(function(cameras) {
-                        if (cameras.length > 0) {
-                            scanner.start(cameras[0]);
-                        } else {
-                            console.error('camera not found');
-                            info.textContent = "camera not found";
-                        }
-                    }).catch(function(err) {
-                        // エラー処理
-                        info.textContent = err;
-                    });
-            };
-            stopBtn.onclick = function() {
-                Instascan.Camera.getCameras()
-                    .then(function(cameras) {
-                        if (cameras.length > 0) {
-                            scanner.stop(cameras[0]);
-                        } else {
-                            console.error('camera not found');
-                        }
-                    }).catch(function(err) {
-
-                    });
-            };
-            */
-
-            /*
-            const video = document.getElementById('player');
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
-            let videoTracks;
-            let localStream = null;
-            let captureTimer = null;
-            const fps = 10;
-            let medias = {
-                video:
-                {
-                    width: 100,
-                    height: 100,
-                    facingMode: {exact: "environment"}
-                },
-                audio: false
-            };
-
-            const startBtn = document.getElementById('start');
-            const stopBtn = document.getElementById('stop');
-
-            startBtn.onclick = function() {
-                navigator.mediaDevices.getUserMedia(medias)
-                    .then(function(stream) {
-                        video.srcObject = stream;
-                        localStream = stream;
-
-                        if (window.BarcodeDetector) {
-                            const detector = new BarcodeDetector();
-                            captureTimer = setInterval(function() {
-                                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                                let scale = 1;
-                                detector.detect(video).then(function(barcodes) {
-                                    ctx.lineWidth = 2;
-                                    ctx.strokeStyle = 'red';
-                                    for (let barcode of barcodes) {
-                                        ctx.beginPath();
-                                        ctx.rect(
-                                            Math.floor(barcode.boudingBox.x * scale),
-                                            Math.floor(barcode.boudingBox.y * scale),
-                                            Math.floor(barcode.boudingBox.width * scale),
-                                            Math.floor(barcode.boudingBox.height * scale)
-                                            );
-                                        ctx.stroke();
-                                        document.getElementById('rawValue')
-                                            .innerHTML = convertLink(barcode.rawValue);
-                                    }
-                                }).catch(function(err) {console.error(err)});
-                            }, 1000 / fps);
-                        }
-                        else {
-                            console.error('BarcodeDetection is not enable');
-                        }
-                        startBtn.disabled = true;
-                        stopBtn.disabled = false;
-                    }).catch(function(err) {
-                        // リアカメラがないケース
-                        console.error(err);
-                    });
-            };
-            stopBtn.onclick = function() {
-                clearInterval(captureTimer);
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                localStream.getTracks().forEach(function(track) {
-                    track.stop();
-                });
-                localStream = null;
-                video.srcObject = null;
-                startBtn.disabled = false;
-                stopBtn.disabled = true;
-            };
-            function convertLink(str) {
-                const r = /((h?)(ttps?:\/\/[a-zA-Z0-9.\-_@:\/~?%&;=+#',()*!]+))/g; //']))/;
-                const regLink = function(all, url, h, href) {
-                    return '<a href="h' + href + '">' + url + '</a>';
-                }
-                return str.replace(r, regLink);
-            };
-            startBtn.click();
-            */
+            // リロード用（キャッシュクリア）
            const btnReload = document.getElementById('btnReload');
            btnReload.onclick = () => {
                 if ('serviceWorker' in navigator) {
