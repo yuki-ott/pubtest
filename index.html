@@ -27,6 +27,8 @@
                 });
             }
             window.addEventListener('beforeinstallprompt', (e) => {
+                // androidのchrome76以降ならpreventDefaultする事で
+                // インストール用のミニバーが表示される
                 e.preventDefault();
                 deferredPrompt = e;
 //                showInstallPromotion();
@@ -44,8 +46,9 @@
         <button id="btnReload">hogeeee</button>
         <video id="player" autoplay playsinline></video>
         <canvas id="canvas" width="300" height="200" style="display:none;"></canvas>
-        <div>barcode text: <span id="rawValue"></span></div>
-        <div>location: <a href="#" id="loc"></a></div>
+        <div style="font-size: small;">barcode text: <span id="rawValue"></span></div>
+        <div style="font-size: small;">location: <a href="#" id="loc"></a></div>
+        <div id="cacheList"></div>
         <button id="start">Start</button>
         <button id="stop">Stop</button>
         <script src="https://cdn.jsdelivr.net/npm/jsqr@latest/dist/jsQR.min.js"></script>
@@ -53,7 +56,7 @@
         <script>
             const video = document.getElementById('player');
             const canvas = document.getElementById('canvas');
-            var info = document.getElementById('rawValue');
+            const cacheList = document.getElementById('cacheList');
             const ctx = canvas.getContext('2d');
             const loc = document.getElementById('loc');
 
@@ -86,7 +89,7 @@
                                 clearInterval(loop);
                                 target.srcObject.getTracks()[0].stop();
                                 target.srcObject = null;
-                                info.textContent = code.data;
+                                setContent(code.data);
                                 setLocation();
 //                                res(code.data);
                             }
@@ -100,6 +103,18 @@
                 const track = video.srcObject.getTracks()[0];
                 track.stop();
             };
+            function setContent(value) {
+                var info = document.getElementById('rawValue');
+                const cacheList = document.getElementById('cacheList');
+                if (navigator.onLine) {
+                    info.textContent = value;
+                } else {
+                    if (cacheList.textContent.length > 0) {
+                        cacheList.textContent += "<br>";
+                    }
+                    cacheList.textContent += value;
+                }
+            }
             function setLocation() {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition((pos) => {
