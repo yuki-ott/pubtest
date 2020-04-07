@@ -51,6 +51,7 @@
         <div id="cacheList"></div>
         <button id="start">Start</button>
         <button id="stop">Stop</button>
+        <button id="sendAll" disabled>一括送信</button>
         <script src="https://cdn.jsdelivr.net/npm/jsqr@latest/dist/jsQR.min.js"></script>
 
         <script>
@@ -63,6 +64,8 @@
             const startBtn = document.getElementById('start');
             const stopBtn = document.getElementById('stop');
             startBtn.onclick = () => {
+                const info = document.getElementById('rawValue');
+                info.textContent = "";
                 const constraints = {
                     video: true,
                     audio: false,
@@ -113,6 +116,7 @@
                         cacheList.textContent += "<br>";
                     }
                     cacheList.textContent += value;
+                    document.getElementById('sendAll').setAttribute('disabled', false);
                 }
             }
             function setLocation() {
