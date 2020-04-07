@@ -87,7 +87,7 @@
                         const loop = setInterval(() => {
                             ctx.drawImage(target, 0, 0, target.videoWidth, target.videoHeight);
                             const img = ctx.getImageData(0, 0, target.videoWidth, target.videoHeight);
-                            const code = jsQR(img.data, img.width, img.height);
+                            const code = jsQR(img.data, img.width, img.height, {inversionAttempts: "dontInvert"});
                             if (code) {
                                 clearInterval(loop);
                                 target.srcObject.getTracks()[0].stop();
