@@ -111,12 +111,12 @@
                 var info = document.getElementById('rawValue');
                 const cacheList = document.getElementById('cacheList');
                 if (isOnline) {
-                    info.textContent = value;
+                    info.innerHTML = value;
                 } else {
-                    if (cacheList.textContent.length > 0) {
-                        cacheList.textContent += "<br>";
+                    if (cacheList.innerHTML.length > 0) {
+                        cacheList.innerHTML += "<br>";
                     }
-                    cacheList.textContent += value;
+                    cacheList.innerHTML += value;
                     document.getElementById('sendAll').setAttribute('disabled', false);
                 }
             }
