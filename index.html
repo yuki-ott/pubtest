@@ -26,6 +26,11 @@
                     .then(function() {console.log('Service Worker Registered');
                 });
             }
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+//                showInstallPromotion();
+            });
         </script>
         <style>
             body {
