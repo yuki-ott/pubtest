@@ -119,7 +119,6 @@
                         cacheList.innerHTML += "<br>";
                     }
                     cacheList.innerHTML += value;
-                    document.getElementById('sendAll').disabled = false;
                 }
             }
             function setLocation() {
@@ -151,9 +150,15 @@
            };
            window.addEventListener('online', (e) => {
                isOnline = true;
+               document.getElementById('sendAll').disabled = true;
            });
            window.addEventListener('offline', (e) => {
                isOnline = false;
+               if (document.getElementById('cacheList').innerHTML.length == 0) {
+                document.getElementById('sendAll').disabled = true;
+               } else {
+                document.getElementById('sendAll').disabled = false;
+               }
            });
            
         </script>
