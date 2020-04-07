@@ -7,7 +7,7 @@
         <link rel="apple-touch-icon" href="icon.ico" sizes="192x192">
         <!--<link rel="manifest" href="./manifest.json">-->
         <script>
-            // 機種ごとのマニフェスト読込
+            // 機種ごとのマニフェスト動的読込
             function setManifest(path) {
                 const manifest = document.createElement('link');
                 manifest.rel = 'manifest';
@@ -55,6 +55,7 @@
         <script src="https://cdn.jsdelivr.net/npm/jsqr@latest/dist/jsQR.min.js"></script>
 
         <script>
+            var isOnline = (navigator.onLine);
             const video = document.getElementById('player');
             const canvas = document.getElementById('canvas');
             const cacheList = document.getElementById('cacheList');
@@ -109,7 +110,7 @@
             function setContent(value) {
                 var info = document.getElementById('rawValue');
                 const cacheList = document.getElementById('cacheList');
-                if (navigator.onLine) {
+                if (isOnline) {
                     info.textContent = value;
                 } else {
                     if (cacheList.textContent.length > 0) {
@@ -146,6 +147,13 @@
                     window.location.reload(true);
                 }
            };
+           window.addEventListener('online', (e) => {
+               isOnline = true;
+           });
+           window.addEventListener('offline', (e) => {
+               isOnline = false;
+           });
+           
         </script>
     </body>
 </html>
