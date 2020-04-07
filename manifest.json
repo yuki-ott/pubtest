@@ -8,5 +8,10 @@
         "type": "image/png"
     }],
     "start_url": "./?utm_source=homescreen",
-    "display": "standalone"
+    "display": "standalone",
+    "prefer_related_applications": true,
+    "related_applications": [{
+        "platform": "play",
+        "id": "com.ottlogistics.yuki-ott"
+    }]
 }
