@@ -61,6 +61,9 @@
             const cacheList = document.getElementById('cacheList');
             const ctx = canvas.getContext('2d');
             const loc = document.getElementById('loc');
+            const sendAllBtn = document.getElementById('sendAll');
+
+            sendAllBtn.disabled = isOnline;
 
             const startBtn = document.getElementById('start');
             const stopBtn = document.getElementById('stop');
@@ -109,11 +112,9 @@
             };
             function setContent(value) {
                 var info = document.getElementById('rawValue');
-                const cacheList = document.getElementById('cacheList');
                 // isOnlineと書いてるけどnavigator.onLineでも判別出来るかも
                 if (isOnline) {
                     info.innerHTML = value;
-                    document.getElementById('sendAll').disabled = true;
                 } else {
                     if (cacheList.innerHTML.length > 0) {
                         cacheList.innerHTML += "<br>";
@@ -150,14 +151,14 @@
            };
            window.addEventListener('online', (e) => {
                isOnline = true;
-               document.getElementById('sendAll').disabled = true;
+               sendAllBtn.disabled = true;
            });
            window.addEventListener('offline', (e) => {
                isOnline = false;
-               if (document.getElementById('cacheList').innerHTML.length == 0) {
-                document.getElementById('sendAll').disabled = true;
+               if (cacheList.innerHTML.length == 0) {
+                sendAllBtn.disabled = true;
                } else {
-                document.getElementById('sendAll').disabled = false;
+                sendAllBtn.disabled = false;
                }
            });
            
